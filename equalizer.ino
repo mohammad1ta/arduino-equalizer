@@ -14,6 +14,8 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 unsigned int sampling_period_us;
 unsigned long microseconds;
 
+int r, g, b, mapped;
+
 double vReal[SAMPLES];
 double vImag[SAMPLES];
 
@@ -35,8 +37,6 @@ int ledMatrix[15][10] = {
   { 297, 267, 236, 205, 175, 144, 113, 82, 51, 20 },
   { 298, 268, 237, 206, 176, 145, 114, 83, 52, 21 }
 };
-
-int r, g, b, mapped;
 
 void setup() {
 
@@ -80,6 +80,7 @@ void equalizer() {
 
   for (int i = 0; i < SAMPLES / 2; i++) {
 
+    // Because below of 2, have noise
     if ( i >= 2 ) {
 
       // Map value of bands to 10 LED ( Height of equalizer )
