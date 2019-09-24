@@ -3,21 +3,18 @@
 
 #define LED_COUNT 300
 #define LED_PIN D1
-
 #define SAMPLES 32 // Must be a power of 2
 #define SAMPLING_FREQUENCY 1000 // Hz, must be less than 10000 due to ADC
+
+unsigned int sampling_period_us;
+unsigned long microseconds;
+double vReal[SAMPLES];
+double vImag[SAMPLES];
+int r, g, b, mapped;
 
 arduinoFFT FFT = arduinoFFT();
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
-
-unsigned int sampling_period_us;
-unsigned long microseconds;
-
-int r, g, b, mapped;
-
-double vReal[SAMPLES];
-double vImag[SAMPLES];
 
 // Define address of ordered LEDs
 int ledMatrix[15][10] = {
