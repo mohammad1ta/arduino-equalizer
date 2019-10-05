@@ -14,7 +14,7 @@
 Processing of audio signals and showing in RGB LED Stripe as equalizer ( or spectrum )
 
 ## Video
-[![Example of equalizer](https://img.youtube.com/vi/KQLnBpG5aBg/2.jpg)](https://youtu.be/KQLnBpG5aBg "Arduino equalizer example") 
+[![Example of equalizer](https://img.youtube.com/vi/f7fiRIdPt94/2.jpg)](https://youtu.be/f7fiRIdPt94 "Arduino equalizer example") 
 
 ## Requirements
 - NodeMCU or another board ( like Arduino Uno and etc ).
