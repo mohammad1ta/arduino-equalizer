@@ -23,7 +23,9 @@ float r, g, b, mapped;
 
 int caseId, rollId = 0, ledCursor = 0, finalCursor = 0;
 
-int ledFullMatrix[ 17 ][ 17 ];
+#define numVertical 16
+#define numHorizontal 16
+int ledFullMatrix[ numVertical + 1 ][ numVertical + 1 ];
 
 void setup() {
   
@@ -52,17 +54,17 @@ void loop() {
 
 void createMatrix() {
 
-  for ( int i = 1; i <= 16; i++ ) {
+  for ( int i = 1; i <= numVertical; i++ ) {
 
-    for ( int j = 1; j <= 16; j++ ) {
+    for ( int j = 1; j <= numHorizontal; j++ ) {
 
       if ( i % 2 == 0 )
-        ledFullMatrix[ i ][ j ] = ( i * 16 - 16 ) + ( 16 - j );
+        ledFullMatrix[ i ][ j ] = ( i * numVertical - numVertical ) + ( numVertical - j );
       else
-        ledFullMatrix[ i ][ j ] = ( i * 16 - 16 ) + j - 1;
+        ledFullMatrix[ i ][ j ] = ( i * numHorizontal - numHorizontal ) + j - 1;
 
     }
-    
+
   }
   
 }
