@@ -1,17 +1,15 @@
 #include "arduinoFFT.h"
 #include <Adafruit_NeoPixel.h>
 
-#define LED_COUNT 256
-#define LED_PIN D1
-#define analogPin A0
-#define PinReset D6
-#define PinStrobe D7
+#define LedCount 256
+#define PIN_LED D1
+#define PIN_ANALOG A0
+#define PIN_RESET D6
+#define PIN_STROBE D7
 #define SAMPLES 32             //Must be a power of 2
 #define SAMPLING_FREQUENCY 1000 //Hz, must be less than 10000 due to ADC
-
-arduinoFFT FFT = arduinoFFT();
-
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+#define numVertical 16
+#define numHorizontal 16
 
 unsigned int sampling_period_us;
 unsigned long microseconds;
@@ -21,11 +19,12 @@ double vImag[SAMPLES];
 
 float r, g, b, mapped;
 
+int ledFullMatrix[ numVertical + 1 ][ numVertical + 1 ];
 int caseId, rollId = 0, ledCursor = 0, finalCursor = 0;
 
-#define numVertical 16
-#define numHorizontal 16
-int ledFullMatrix[ numVertical + 1 ][ numVertical + 1 ];
+arduinoFFT FFT = arduinoFFT();
+
+Adafruit_NeoPixel strip(LedCount, PIN_LED, NEO_GRB + NEO_KHZ800);
 
 void setup() {
   
@@ -35,12 +34,12 @@ void setup() {
   strip.setBrightness(255);
   strip.show();
 
-  pinMode(analogPin, INPUT);
-  pinMode(PinStrobe, OUTPUT);
-  pinMode(PinReset, OUTPUT);
+  pinMode(PIN_ANALOG, INPUT);
+  pinMode(PIN_STROBE, OUTPUT);
+  pinMode(PIN_RESET, OUTPUT);
 
-  digitalWrite(PinReset, LOW);
-  digitalWrite(PinStrobe, HIGH);
+  digitalWrite(PIN_RESET, LOW);
+  digitalWrite(PIN_STROBE, HIGH);
   
 }
 
@@ -71,25 +70,25 @@ void createMatrix() {
 
 void equalizer() {
 
-  digitalWrite(PinReset, HIGH);
-  digitalWrite(PinReset, LOW);
+  digitalWrite(PIN_RESET, HIGH);
+  digitalWrite(PIN_RESET, LOW);
 
   for (int i = 0; i < 7; i++) {
 
-    digitalWrite(PinStrobe, LOW);
+    digitalWrite(PIN_STROBE, LOW);
     delayMicroseconds(40);
 
     bands[i] = analogRead(0);
     Serial.println( "Band " + (String) i + " ==> " + (String) bands[i] );
 
-    digitalWrite(PinStrobe, HIGH);
+    digitalWrite(PIN_STROBE, HIGH);
     delayMicroseconds(40);
 
   }
 
   for (int i = 0; i < 7; i++) {
 
-    mapped = map(round(bands[i]), 1000, 100, 0, 16);
+    mapped = map( round( bands[i] ), 1000, 100, 0, 16);
 
     for ( int j = 1; j <= mapped; j++ )
       strip.setPixelColor( ledFullMatrix[j][i], 255, 255, 255, 0 );
